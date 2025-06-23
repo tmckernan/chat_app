@@ -1,24 +1,48 @@
-# README
+# Project real time chat app Challenge
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## System dependencies
+* [Ruby 3.4.4]
+* [Rails 8.0.2]
+* [Turbo && Stimulus]
+* [Rubocop] - Ruby static code analyzer
+* [RSpec && Capybara] - Rspec tests && Capybara feature tests.
 
-Things you may want to cover:
+## Features
+1. user signup/authentication using devise gem
+2. User can create chatrooms
+3. user can join and leave a chatroom
+4. Several user can join a chatroom
+5. User can send text messages in real time
+6. All message are persisted in a database
 
-* Ruby version
+## Installation
 
-* System dependencies
+1. Clone the repository:
+```bash
+git clone [git@github.com:tmckernan/chat_app.git]
+cd chat_app
+```
 
-* Configuration
+2. Install dependencies:
+```bash
+bundle install
+```
 
-* Database creation
+3. Create database:
+```bash
+rails db:create db:migrate db:seed
+```
 
-* Database initialization
+## Run the application:
+```bash
+bin/dev
+```
+Application will be running on http://localhost:3000
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+### Tests && code coverage
 
-* Deployment instructions
-
-* ...
+```sh
+cd chat_app
+bundle exec rspec
+```

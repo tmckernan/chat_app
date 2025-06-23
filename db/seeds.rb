@@ -7,15 +7,42 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-user = User.first_or_create(
-  email: 'admin@example.com',
+User.destroy_all
+Chatroom.destroy_all
+Membership.destroy_all
+Message.destroy_all
+
+user = User.create(
+  email: 'test1@example.com',
   password: 'passw0rd',
-  display_name: 'admin'
+  display_name: 'Test user 1'
 )
 
+puts "Test user 1 has been set up with #{user.email} / #{user.password}"
 
-User.create(
-  email: 'info@example.com',
+user2 = User.create(
+  email: 'test2@example.com',
   password: 'passw0rd',
-  display_name: 'the dude'
+  display_name: 'Test user 2'
 )
+
+puts "Test user 2 has been set up with #{user2.email} / #{user2.password}"
+
+chatroom = Chatroom.create(name: 'chat room 1')
+
+puts "Chatroom #{chatroom.name} has been set up"
+
+mem1 = Membership.create(user: user, chatroom: chatroom)
+
+puts "#{mem1.user.display_name} has join #{mem1.chatroom.name}"
+
+mem2 = Membership.create(user: user2, chatroom: chatroom)
+
+puts "#{mem2.user.display_name} has join #{mem2.chatroom.name}"
+
+message = Message.create(user: user, chatroom: chatroom, content: 'hello world')
+
+puts "User #{message.user.display_name} has said #{message.content}"
+
+message2 = Message.create(user: user2, chatroom: chatroom, content: 'hello world')
+puts "User #{message2.user.display_name} has said #{message2.content}"
