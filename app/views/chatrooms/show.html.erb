@@ -1,0 +1,45 @@
+<div class="container mx-auto p-4 max-w-4xl">
+  <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+    <div class="bg-indigo-600 text-white p-6 flex justify-between items-center rounded-t-lg">
+      <h1 class="text-3xl font-bold"><%= @chatroom.name %></h1>
+      <div>
+        <%= link_to "Back to Rooms", chatrooms_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-100 bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300" %>
+        <% if @is_member %>
+          <%= button_to "Leave Room", leave_chatroom_path(@chatroom), method: :delete, class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-100 bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300" %>
+        <% else %>
+          <%= button_to "Join Room", join_chatroom_path(@chatroom), method: :post, class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-100 bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <%= turbo_stream_from "chatroom_#{@chatroom.id}_messages" %>
+      <div class="bg-gray-100 rounded-lg p-4 mb-6 h-96 overflow-y-auto flex flex-col" id="messages" data-controller="scroll-bottom">
+        <% if @messages.any? %>
+          <%= render @messages  %>
+        <% else %>
+          <p class="text-gray-500 text-center flex-grow flex items-center justify-center">No messages yet. Be the first to send one!</p>
+        <% end %>
+      </div>
+
+      <% if @is_member %>
+        <%= turbo_frame_tag "new_message", class: "mt-4" do %>
+          <%= render 'messages/form', message: @message, chatroom: @chatroom %>
+        <% end %>
+      <% else %>
+        <p class="text-gray-600 text-center mt-4">You must join this room to send messages.</p>
+      <% end %>
+
+      <h2 class="text-xl font-semibold mt-8 mb-4 text-gray-700">Members in this room:</h2>
+      <%= turbo_stream_from "chatroom_#{@chatroom.id}_members" %>
+      <div id="chatroom_<%= @chatroom.id %>_members_list" class="flex flex-wrap gap-2 text-sm text-gray-700">
+        <% @chatroom.users.each do |member| %>
+          <%= render "chatrooms/member", user: member %>
+        <% end %>
+        <% if @chatroom.users.empty? %>
+          <p>No members yet.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

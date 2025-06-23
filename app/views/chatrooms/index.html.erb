@@ -1,0 +1,38 @@
+<div class="container mx-auto p-4 max-w-4xl">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Chat Rooms</h1>
+
+  <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Create New Chat Room</h2>
+    <%= form_with(model: @new_chatroom, class: "space-y-4") do |form| %>
+      <% if @new_chatroom.errors.any? %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">Oops!</strong>
+          <span class="block sm:inline">There were some errors:</span>
+          <ul class="list-disc ml-5 text-sm">
+            <% @new_chatroom.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", placeholder: "e.g., General Chat, Tech Talk" %>
+      </div>
+
+      <%= form.submit "Create Chat Room", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Available Chat Rooms</h2>
+    <div id="chatrooms" class="space-y-4">
+      <% if @chatrooms.any? %>
+        <%= render partial: "chatroom", collection: @chatrooms %>
+      <% else %>
+        <p class="text-gray-600">No chat rooms available. Be the first to create one!</p>
+      <% end %>
+    </div>
+  </div>
+</div>

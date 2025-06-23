@@ -1,0 +1,9 @@
+  <div id="<%= dom_id(message) %>" class="flex flex-col mb-4 p-3 rounded-lg self-start bg-gray-200 text-gray-800' %> max-w-[80%]">
+    <div class="flex items-baseline mb-1">
+      <strong class="font-semibold text-sm mr-2"><%= message.user.display_name %></strong>
+      <span class="text-xs text-gray-500"><%= message.created_at.strftime("%H:%M") %></span>
+    </div>
+    <p class="text-sm break-words"><%= message.content %></p>
+  </div>
+
+
